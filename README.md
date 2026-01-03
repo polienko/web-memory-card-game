@@ -1,6 +1,6 @@
-# Play: [polienko.github.io/react-memory-game](http://polienko.github.io/react-memory-game/)
+# Play: [http://polienko.github.io/web-memory-card-game/](https://polienko.github.io/web-memory-card-game/)
 
-![Screenshot](https://github.com/polienko/react-memory-game/blob/master/screenshot.png)
+![Screenshot](https://github.com/polienko/web-memory-card-game/blob/master/screenshot.png)
 
 Your best scores are stored in localStorage of your browser.
 
