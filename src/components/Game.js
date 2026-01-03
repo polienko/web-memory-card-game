@@ -2,6 +2,9 @@ import React from "react";
 import Board from './Board';
 import './Game.css';
 
+
+
+
 const DEBUG_MODE = false;
 
 const DEFAULT_GAMEMODE = 24;
@@ -24,11 +27,21 @@ if (DEBUG_MODE){
 //REPLACE FOR LONG IMAGES IMPORT
 let images = {};
 for (let i = 1; i <= 24; i++) {
-  let currentImage = require('../img/'+ i +'.png').default;
-  Object.defineProperty(images, i, {
-    enumerable: true,
-    value: currentImage
-  });
+  const hue = (i * 15) % 360;
+  
+  images[i] = `data:image/svg+xml;base64,${btoa(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+      <rect width="100" height="100" fill="hsl(${hue}, 70%, 50%)"/>
+      <text 
+        x="50" 
+        y="50" 
+        font-family="Arial Black, sans-serif" 
+        font-size="45" 
+        text-anchor="middle" 
+        dominant-baseline="central"
+        fill="black">${i}</text>
+    </svg>
+  `)}`;
 }
 
 //REPLACE FOR LONG CARDS DESCRIPTION
@@ -40,6 +53,7 @@ for (const [key, path] of Object.entries(images)){
   cardObj.path = path;
   UNIQUE_CARDS.push(cardObj);
 }
+
 
 let FULL_CARD_DECK = [];
 UNIQUE_CARDS.map((card) => (
@@ -118,6 +132,17 @@ class Game extends React.Component{
         console.log("GAME_DECK:\n", GAME_DECK);
       }  
     }
+
+	componentDidUpdate(prevProps, prevState) {
+	  // Этот метод вызывается после каждого обновления рендера
+	  if (this.state.freezeCards === true && prevState.freezeCards === false) {
+		switchClassOnCards(FLIP_CLASS, DEFAULT_CLASS);
+		// Сбрасываем freezeCards обратно на false после обновления карточек
+		setTimeout(() => {
+		  this.setState({freezeCards: false});
+		}, 0);
+	  }
+	}
 
     newGame(event){
       event.preventDefault();
@@ -235,11 +260,6 @@ class Game extends React.Component{
     }
 
     render(){
-      if (this.state.freezeCards === true){
-        switchClassOnCards(FLIP_CLASS, DEFAULT_CLASS)
-        this.setState({freezeCards: false});
-      }
-
       return(
         <div id="game">
           <div id="score-block">CURRENT SCORE: <span id="score">{this.state.score}</span></div>
@@ -261,7 +281,6 @@ class Game extends React.Component{
             clickHandler={this.clickHandler}
             DEBUG_MODE={DEBUG_MODE}
           />
-
         </div>
       );
     }

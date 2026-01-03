@@ -1,18 +1,22 @@
-
 .card-front,
 .card-back {
   position: absolute;
+  width: 100%; /* Добавляем */
+  height: 100%; /* Добавляем */
   border: 1px solid #49494b;
   border-radius: 5px;
   box-sizing: border-box; /* TO NOT OVERLAP */
   backface-visibility: hidden; /* FIX MOBILE FIREFOX */
+  object-fit: cover; /* Это важно - изображение будет заполнять контейнер */
 }
 
 .card {
   transform: scale(1);
   transition: transform .1s;
   cursor:pointer;
-  max-width:92px; /* (widthOfPic + 2* border) */
+  width: 100%; /* Добавляем */
+  height: 100%; /* Добавляем */
+  position: relative; /* Нужно для абсолютного позиционирования дочерних элементов */
 }
 
 .card:active {
@@ -20,6 +24,7 @@
   transition: transform .1s;
 }
 
+/* Остальной CSS остается без изменений */
 .card-front {
   transform: rotateY(180deg);
   cursor:default;
@@ -41,7 +46,9 @@
   transform: scale(1);
   transition: transform .1s;
   cursor:pointer;
-  max-width:92px; /* (widthOfPic + 2* border) */
+  width: 100%; /* Добавляем */
+  height: 100%; /* Добавляем */
+  position: relative; /* Нужно для абсолютного позиционирования дочерних элементов */
   border: 3px solid black;
   border-radius: 5px;
 }
